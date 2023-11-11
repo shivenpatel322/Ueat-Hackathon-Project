@@ -12,36 +12,14 @@ interface Recipe {
   image: string;
   // Add any other properties you expect in the response
 }
-export let id = 0;
-export function sendID(idNumber: number){
-    id = idNumber;
-}
 const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariable }) => {
   const [inputValue, setInputValue] = useState('');
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingInfo, setLoadingInfo] = useState(false); // New state for loading recipe information
   const [error, setError] = useState<string | null>(null);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
-  const apikey = '12ffc57a4fbb48229ce669cc43fc8b95';
 
-  const getRecipeInfo = async (id: number) => {
-    setLoadingInfo(true); // Set loading for recipe information
-    setError(null);
-
-    const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apikey}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      setSelectedRecipe(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoadingInfo(false); // Reset loading for recipe information
-    }
-  };
+  const apikey = '1c0f21a9b3204a0e925be4151a81bb9e';
 
   const getRecipe = async (value: string) => {
     setLoading(true);
@@ -84,12 +62,11 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
             <img
               className="card-img-top"
               src={recipe.image}
-              onClick={() => {setSharedVariable(recipe.id);sendID(recipe.id);console.log(id);}}
+              onClick={() => {setSharedVariable(recipe.id);setDisplay(false);}}
               alt="Card image cap"
             />
             <div className="card-body">
               <h5 className="card-title">{recipe.title}</h5>
-              <h5 onClick={() => getRecipeInfo(recipe.id)}className="card-title">{recipe.title}</h5>
             </div>
           </div>
         ))}
@@ -97,19 +74,6 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
     );
   };
 
-  const showSelectedRecipe = () => {
-    if (!selectedRecipe) {
-      return null;
-    }
-
-    return (
-      <div>
-        <h2>{selectedRecipe.title}</h2>
-        <img src={selectedRecipe.image} alt="Recipe" />
-        {/* Add other details as needed */}
-      </div>
-    );
-  };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -135,8 +99,6 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
 
       <div id="results">
         {showRecipe()}
-        {loadingInfo && <h4>Loading recipe information...</h4>}
-        {showSelectedRecipe()}
       </div>
     </div>
   );
