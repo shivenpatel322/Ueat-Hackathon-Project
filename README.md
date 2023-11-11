@@ -1,5 +1,4 @@
-# Hackathon 
-Fridge Recipe Project
+# Fridge Recipe Project
 
 The Fridge Recipe App helps a user plan out their meals based on food they currently have in their fridge.
 
