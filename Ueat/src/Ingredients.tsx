@@ -1,4 +1,5 @@
 import React from "react";
+import "./Ingredients.css"
 import { LoginProps } from "./types";
 
 const Ingredients: React.FC<LoginProps> = ({ setLoggedIn }) => {

@@ -1,6 +1,7 @@
 
 import React, { } from "react";
 import {LoginProps } from "./types";
+import "./Welcome.css"
 import Ueat_logo from "./Ueat_logo.png";
 const Welcome: React.FC<LoginProps> = ({ setLoggedIn }) => {
     return(
