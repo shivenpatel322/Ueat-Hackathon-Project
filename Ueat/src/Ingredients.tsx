@@ -5,7 +5,7 @@ import { LoginProps } from "./types";
 const Ingredients: React.FC<LoginProps> = ({ setLoggedIn }) => {
  return(
     <div className="container">
-        <button onClick={() => setLoggedIn(false)} ></button>
+        <button onClick={() => setLoggedIn(false)} > Back to Welcome</button>
     </div>
  );
 };

@@ -1,0 +1,11 @@
+.logo:hover {
+    filter: drop-shadow(0 0 2em rgba(129, 24, 16, 0.667));
+  }
+  .logo.react:hover {
+    filter: drop-shadow(0 0 2em rgba(137, 30, 8, 0.667));
+  }
+  
+  .logo {
+    width: 150px;
+    height: 150px;
+  }
