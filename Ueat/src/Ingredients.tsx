@@ -1,19 +1,36 @@
-import React from "react";
-import "./Ingredients.css"
-import { LoginProps } from "./types";
-import RecipeFinder from "./RecipeFinder";
+import React, { useState } from 'react';
+import RecipeFinder from './RecipeFinder'; // Import your RecipeFinder component
+import RecipeDisplay from './RecipeDisplay'; // Import your RecipeDisplay component
+import { LoginProps } from './types';
 
 const Ingredients: React.FC<LoginProps> = ({ setLoggedIn }) => {
-    
- return(
+  // Shared variable
+  const [sharedVariable, setSharedVariable] = useState(0);
+
+  // State to manage whether to display RecipeFinder or RecipeDisplay
+  const [displaying, setDisplay] = useState(true);
+
+  return (
     <div className="container">
-         <div className = "ingredients">
-                <h1>Ingredients</h1>
-                <RecipeFinder />
-            </div>
-        <button onClick={() => setLoggedIn(false)} > Back to Welcome</button>
+      <div className="ingredients">
+        <h1>Ingredients</h1>
+        {displaying ? (
+          <RecipeFinder
+            setDisplay={setDisplay}
+            sharedVariable={sharedVariable}
+            setSharedVariable={setSharedVariable}
+          />
+        ) : (
+          <RecipeDisplay
+            setDisplay={setDisplay}
+            sharedVariable={sharedVariable}
+            setSharedVariable={setSharedVariable}
+          />
+        )}
+      </div>
+      <button onClick={() => setLoggedIn(false)}>Back to Welcome</button>
     </div>
- );
+  );
 };
 
 export default Ingredients;
