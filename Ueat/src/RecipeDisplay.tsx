@@ -20,7 +20,7 @@ interface RecipeDisplayProps {
 
 const RecipeDisplay: React.FC<RecipeDisplayProps> = ({setDisplay,sharedVariable}) => {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const apikey = 'f7747b08130e41e0b9628561ab6afd31';
+  const apikey = '5594f49e044544d3afdccc085c6c1949';
 
   const getRecipeInfo = useMemo(async () => {
 
