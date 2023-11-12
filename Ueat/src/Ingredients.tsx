@@ -12,9 +12,10 @@ const Ingredients: React.FC<LoginProps> = ({ setLoggedIn }) => {
 
   return (
     <div className="container">
+      <h1>Ueat Recipes</h1>
       <div className="ingredients">
-        <h1>Ingredients</h1>
-        {displaying ? (
+        {displaying ?
+        (
           <RecipeFinder
             setDisplay={setDisplay}
             sharedVariable={sharedVariable}

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useState } from 'react';
+import Ingredients from './Ingredients';
 
 interface Recipe {
   id: number;
@@ -9,9 +10,18 @@ interface Recipe {
   readyInMinutes: number;
   instructions: string;
   cuisines: string[];
-
+  extendedIngredients: Ingredients[]
   // Add any other properties you expect in the response
 }
+
+interface Ingredients {
+  name: string;
+  measures: {
+    us: {amount: number; unitShort: string;}
+    metric: {amount: number; unitShort: string;}
+  };
+}
+
 interface RecipeDisplayProps {
   setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
   sharedVariable: number;
@@ -47,11 +57,14 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({setDisplay,sharedVariable}
       <div>
         <h2>{selectedRecipe.title}</h2>
         <img src={selectedRecipe.image} alt="Recipe" />
-        <h5>{selectedRecipe.cuisines.reduce((acc, e, i) =>
-          (i === selectedRecipe.cuisines.length - 1)? acc + e : acc + e + ", ", "")}</h5>
-        <h5>{"Preperation Time: " + selectedRecipe.readyInMinutes + " min"}</h5>
-        <h5>{"Serves " + selectedRecipe.servings + "."}</h5>
-        <h6>{selectedRecipe.instructions}</h6>
+        <h4>{selectedRecipe.cuisines.reduce((acc, e, i) =>
+          (i === selectedRecipe.cuisines.length - 1)? acc + e : acc + e + ", ", "")}</h4>
+        <h4>{"Preperation Time: " + selectedRecipe.readyInMinutes + " min"}</h4>
+        <h4>{"Serves " + selectedRecipe.servings}</h4>
+        <h5>{"Ingredient Quantities: " + selectedRecipe.extendedIngredients.map(ing => 
+        "     " + ing.measures.us.amount + " " + ing.measures.us.unitShort + " " + ing.name
+        )}</h5>
+        <h5>{selectedRecipe.instructions}</h5>
       </div>
     );
   };
