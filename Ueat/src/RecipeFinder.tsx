@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Ingredients from './Ingredients';
 
 interface RecipeDisplayProps {
     setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,16 +10,45 @@ interface Recipe {
   id: number;
   title: string;
   image: string;
+  missedIngredientCount: number;
+  missedIngredients: Ingredients[];
+  usedIngredientCount: number;
+  unusedIngredients: Ingredients[];
   // Add any other properties you expect in the response
+}
+interface Ingredients {
+  name: string;
+}
+export let id = 0;
+export function sendID(idNumber: number){
+    id = idNumber;
 }
 const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariable }) => {
   const [inputValue, setInputValue] = useState('');
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadingInfo, setLoadingInfo] = useState(false); // New state for loading recipe information
   const [error, setError] = useState<string | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
+  const apikey = 'f7747b08130e41e0b9628561ab6afd31';
 
-  const apikey = '1c0f21a9b3204a0e925be4151a81bb9e';
+  const getRecipeInfo = async (id: number) => {
+    setLoadingInfo(true); // Set loading for recipe information
+    setError(null);
+
+    const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apikey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setSelectedRecipe(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoadingInfo(false); // Reset loading for recipe information
+    }
+  };
 
   const getRecipe = async (value: string) => {
     setLoading(true);
@@ -56,20 +85,37 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
     }
 
     return (
-      <div className="card" style={{ width: '18rem' }}>
+      <div className="card">
         {recipes.map((recipe) => (
           <div key={recipe.id}>
+            <h5 onClick={() => getRecipeInfo(recipe.id)}className="card-title">{recipe.title}</h5>
             <img
               className="card-img-top"
               src={recipe.image}
-              onClick={() => {setSharedVariable(recipe.id);setDisplay(false);}}
+              onClick={() => {setSharedVariable(recipe.id);sendID(recipe.id);console.log(id);}}
               alt="Card image cap"
             />
             <div className="card-body">
-              <h5 className="card-title">{recipe.title}</h5>
+              <h6 className="card-match">{"Matching Ingredients: " + Math.floor(recipe.usedIngredientCount / (recipe.missedIngredientCount + recipe.usedIngredientCount + recipe.unusedIngredients.length) * 100) + "%"}</h6>
+              <h6 className="card-missingFridge">{"Missing Recipe Ingredients: " + recipe.missedIngredients.map(ing => ing.name)}</h6>
+              <h6 className="card-missingFridge">{"Missing Recipe Ingredients: " + recipe.unusedIngredients.map(ing => ing.name)}</h6>
             </div>
           </div>
         ))}
+      </div>
+    );
+  };
+
+
+  const showSelectedRecipe = () => {
+    if (!selectedRecipe) {
+      return null;
+    }
+
+    return (
+      <div>
+        <h2>{selectedRecipe.title}</h2>
+        <img src={selectedRecipe.image} alt="Recipe" />
       </div>
     );
   };
@@ -99,6 +145,8 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
 
       <div id="results">
         {showRecipe()}
+        {loadingInfo && <h4>Loading recipe information...</h4>}
+        {showSelectedRecipe()}
       </div>
     </div>
   );

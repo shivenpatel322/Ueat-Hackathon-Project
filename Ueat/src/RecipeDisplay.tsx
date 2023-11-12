@@ -1,10 +1,15 @@
-import React, {} from 'react';
+import React, { useMemo } from 'react';
 import { useState } from 'react';
 
 interface Recipe {
   id: number;
   title: string;
   image: string;
+  servings: number;
+  readyInMinutes: number;
+  instructions: string;
+  cuisines: string[];
+
   // Add any other properties you expect in the response
 }
 interface RecipeDisplayProps {
@@ -15,10 +20,11 @@ interface RecipeDisplayProps {
 
 const RecipeDisplay: React.FC<RecipeDisplayProps> = ({setDisplay,sharedVariable}) => {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
-  const apikey = '1c0f21a9b3204a0e925be4151a81bb9e';
+  const apikey = 'f7747b08130e41e0b9628561ab6afd31';
 
-  const getRecipeInfo = async (id: number) => {
+  const getRecipeInfo = useMemo(async () => {
 
+    const id = sharedVariable;
     const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apikey}`;
 
     try {
@@ -28,10 +34,11 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({setDisplay,sharedVariable}
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
+
+  }, [setSelectedRecipe]);
 
   const showSelectedRecipe = () => {
-    getRecipeInfo(sharedVariable);
+    getRecipeInfo.then();
     if (!selectedRecipe) {
       return null;
     }
@@ -40,13 +47,18 @@ const RecipeDisplay: React.FC<RecipeDisplayProps> = ({setDisplay,sharedVariable}
       <div>
         <h2>{selectedRecipe.title}</h2>
         <img src={selectedRecipe.image} alt="Recipe" />
-        {/* Add other details as needed */}
+        <h5>{selectedRecipe.cuisines.reduce((acc, e, i) =>
+          (i === selectedRecipe.cuisines.length - 1)? acc + e : acc + e + ", ", "")}</h5>
+        <h5>{"Preperation Time: " + selectedRecipe.readyInMinutes + " min"}</h5>
+        <h5>{"Serves " + selectedRecipe.servings + "."}</h5>
+        <h6>{selectedRecipe.instructions}</h6>
       </div>
     );
   };
+
  return (
  <div>
-  <button onClick={() => setDisplay(true)}>{sharedVariable}</button>
+  <button onClick= {() => setDisplay(true)}>{sharedVariable}</button>
   {showSelectedRecipe()}
  </div>);
 }
