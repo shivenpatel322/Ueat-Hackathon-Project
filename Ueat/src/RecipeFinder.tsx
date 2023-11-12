@@ -88,7 +88,7 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
       <div className="card">
         {recipes.map((recipe) => (
           <div key={recipe.id}>
-            <h5 onClick={() => getRecipeInfo(recipe.id)}className="card-title">{recipe.title}</h5>
+            <h4 onClick={() => getRecipeInfo(recipe.id)}className="card-title">{recipe.title}</h4>
             <img
               className="card-img-top"
               src={recipe.image}
@@ -96,9 +96,10 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
               alt="Card image cap"
             />
             <div className="card-body">
-              <h6 className="card-match">{"Matching Ingredients: " + Math.floor(recipe.usedIngredientCount / (recipe.missedIngredientCount + recipe.usedIngredientCount + recipe.unusedIngredients.length) * 100) + "%"}</h6>
-              <h6 className="card-missingFridge">{"Missing Recipe Ingredients: " + recipe.missedIngredients.map(ing => ing.name)}</h6>
-              <h6 className="card-missingFridge">{"Missing Recipe Ingredients: " + recipe.unusedIngredients.map(ing => ing.name)}</h6>
+              <h5 className="card-match">{"Matching Ingredients: " + Math.floor(recipe.usedIngredientCount / (recipe.missedIngredientCount + recipe.usedIngredientCount + recipe.unusedIngredients.length) * 100) + "%"}</h5>
+              <h5 className="card-missingFridge">{"Missing Recipe Ingredients: " + recipe.missedIngredients.map(ing => "     " + ing.name)}</h5>
+              <h5 className="card-missingFridge">{"Missing Input Ingredients: " + 
+              (recipe.unusedIngredients.length == 0)? "No unused ingredients" : recipe.unusedIngredients.map(ing =>  "     " + ing.name)}</h5>
             </div>
           </div>
         ))}
