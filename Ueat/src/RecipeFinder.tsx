@@ -31,7 +31,7 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
   const [error, setError] = useState<string | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
-  const apikey = 'f7747b08130e41e0b9628561ab6afd31';
+  const apikey = '5594f49e044544d3afdccc085c6c1949';
 
   const getRecipeInfo = async (id: number) => {
     setLoadingInfo(true); // Set loading for recipe information
