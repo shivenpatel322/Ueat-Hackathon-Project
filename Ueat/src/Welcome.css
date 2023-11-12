@@ -1,20 +1,79 @@
+
+.welcome {
+    position: relative;
+    z-index: -1; /* This ensures the text appears above the background */
+    /* Add other styling as needed */
+}
+ @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .logo:hover {
     filter: drop-shadow(0 0 2em rgba(129, 24, 16, 0.667));
   }
   .logo.react:hover {
     filter: drop-shadow(0 0 2em rgba(137, 30, 8, 0.667));
   }
-  
-  .logo {
-    width: 150px;
-    height: 150px;
-  }
-
+ 
   .welcome{ 
     font-size: 80px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
 
-  .container{
-    justify-content: center;
+/*  .background img{
+  background-image: linear-gradient(rgba(4, 9, 30, 0.7),rgba(4,9,30, 0.7));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;z-index: -1;
+  object-fit: cover; /* Ensures the image covers the container */
+   /* Sends the image to the back */
+
+  \*
+
+
+.welcome {
+    animation-name: fadeIn;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+
+
+  .logo {
+    width: 150px;
+    height: 150px;
   }
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(103% + 1.3px);
+  height: 262px;
+}
+
+.wave .shape-fill {
+  fill: hsl(240, 3%, 6%);
+}
+
+
+
+
+
+
+  /* SVG background image via https://haikei.app/ */
+
