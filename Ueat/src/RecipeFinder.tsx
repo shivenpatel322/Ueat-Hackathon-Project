@@ -92,7 +92,7 @@ const RecipeFinder: React.FC<RecipeDisplayProps> = ({ setDisplay,setSharedVariab
             <img
               className="card-img-top"
               src={recipe.image}
-              onClick={() => {setSharedVariable(recipe.id);sendID(recipe.id);console.log(id);}}
+              onClick={() => {setSharedVariable(recipe.id);sendID(recipe.id);console.log(id);setDisplay(false)}}
               alt="Card image cap"
             />
             <div className="card-body">
